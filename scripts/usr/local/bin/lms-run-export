@@ -1,0 +1,7 @@
+docker run --name=lms-bash \
+           -v /usr/local/etc/LMS/bash:/bash-etc \
+           -v /usr/local/share/LMS/bash:/bash-share \
+           -v /usr/local/lib/LMS/bash:/bash-lib \
+           -v ${HOME}/Development/LMS/bash:/bash-root \
+           -it \
+       jaywheeler/lms-bash:latest /usr/local/bin/lms-export
