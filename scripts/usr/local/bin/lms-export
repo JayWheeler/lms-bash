@@ -1,0 +1,96 @@
+#!/bin/bash
+# =========================================================================
+#
+#	Dockerfile
+#	  Dockerfile for docker-alpine-lms-bash in 
+#		a Debian 9 docker container.
+#
+# =========================================================================
+#
+# @author Jay Wheeler.
+# @version 0.2.1
+# @copyright © 2017, 2018. EarthWalk Software.
+# @license Licensed under the Academic Free License version 3.0
+# @package docker-debian-lms-bash
+# @subpackage Dockerfile
+#
+# =========================================================================
+#
+#	Copyright © 2017, 2018. EarthWalk Software
+#	Licensed under the Academic Free License, version 3.0.
+#
+#	Refer to the file named License.txt provided with the source,
+#	or from
+#
+#		http://opensource.org/licenses/academic.php
+#
+# =========================================================================
+# =========================================================================
+#
+#     docker run --name=debian-lms-bash \
+#                --rm \
+#                -it \
+#            debian-lms-bash /bin/bashls
+#
+#     docker run --name=debian-lms-bash \
+#                --rm \
+#                -it \
+#                -v ${HOME}/LMS-Dev:/data \
+#            debian-lms-bash /usr/local/bin/lms-export
+#
+# =========================================================================
+# =========================================================================
+
+echo
+echo -n "Creating bash-root directories... "
+
+mkdir -p /bash-root/${PKG_VERS}/{etc,lib,src}
+
+echo "done."
+
+echo -n "Copying etc... "
+
+cp -rf /usr/local/etc/LMS/Bash/${PKG_VERS} /bash-etc/${PKG_VERS}/
+[[ $? -eq 0 ]] && cp -rf /usr/local/etc/LMS/Bash/${PKG_VERS}/* /bash-root/${PKG_VERS}/etc/
+[[ $? -eq 0 ]] || exit 6
+
+echo "done"
+
+# =========================================================================
+
+echo -n "Copying lib... "
+
+cp -rf /usr/local/lib/LMS/Bash/${PKG_VERS} /bash-lib/${PKG_VERS}/
+[[ $? -eq 0 ]] && cp -rf /usr/local/lib/LMS/Bash/${PKG_VERS}/* /bash-root/${PKG_VERS}/lib/
+[[ $? -eq 0 ]] || exit 7
+
+echo "done"
+
+# =========================================================================
+
+echo -n "Copying share... "
+
+cp -rf /usr/local/share/LMS/Bash/${PKG_VERS} /bash-share/${PKG_VERS}/
+[[ $? -eq 0 ]] && cp -rf /usr/local/share/LMS/Bash/${PKG_VERS}/* /bash-root/${PKG_VERS}/src/
+[[ $? -eq 0 ]] || exit 9
+
+echo "done"
+
+# =========================================================================
+
+echo -n "Copying archives... "
+
+mkdir -p /bash-root/archive
+
+cp -rf /var/local/archives/Bash/* /bash-root/archive/
+[[ $? -eq 0 ]] || exit 5
+
+echo "done"
+
+# =========================================================================
+
+echo
+echo "Copy completed."
+echo
+
+exit 0
