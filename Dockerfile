@@ -73,7 +73,10 @@ ENV PKG_HOST=http://pkgnginx
 ENV PKG_NAME=LMS-Bash-${PKG_VERS}.tar.gz
 ENV PKG_URL=${PKG_HOST}/${PKG_NAME}
 
-RUN apt-get -y update \
+COPY scripts/. /
+
+RUN chmod -R +x /usr/local/bin/* \
+ && apt-get -y update \
  && apt-get -y upgrade \
  && apt-get -y install \
           wget \
@@ -91,8 +94,6 @@ RUN apt-get -y update \
  && tar -xzf /var/local/archives/Bash/${PKG_VERS}/LMS-Bash-etc-${PKG_VERS}.tar.gz -C /usr/local/etc/LMS/Bash/${PKG_VERS} \
  && tar -xzf /var/local/archives/Bash/${PKG_VERS}/LMS-Bash-lib-${PKG_VERS}.tar.gz -C /usr/local/lib/LMS/Bash/${PKG_VERS} \
  && tar -xzf /var/local/archives/Bash/${PKG_VERS}/LMS-Bash-src-${PKG_VERS}.tar.gz -C /usr/local/share/LMS/Bash/${PKG_VERS} 
-
-COPY scripts/. /
 
 VOLUME /bash-root
 
